@@ -15,7 +15,7 @@ func main() {
 
 	r := router.New(application)
 
-	application.Logger.Info("Starting server")// We'll replace this with structured fields in the next sprint
+	application.Logger.Info("Starting server") // We'll replace this with structured fields in the next sprint
 
 	if err := r.Run(":" + application.Config.ServerPort); err != nil {
 		log.Fatal(err)
