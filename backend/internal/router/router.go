@@ -2,7 +2,7 @@ package router
 
 import (
 	"time"
-
+    "github.com/gin-contrib/cors"
 	"github.com/Go8089/page-pulse/internal/app"
 	"github.com/Go8089/page-pulse/internal/audit"
 	"github.com/Go8089/page-pulse/internal/fetcher"
@@ -14,7 +14,12 @@ import (
 
 func New(application *app.Application) *gin.Engine {
 	r := gin.New()
+    
+	if err := r.SetTrustedProxies(nil); err != nil {
+        panic(err)
+    }
 
+	r.Use(cors.Default())
 	// Middleware
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
