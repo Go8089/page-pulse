@@ -9,6 +9,7 @@ import (
 
 	appErrors "github.com/Go8089/page-pulse/internal/errors"
 )
+
 func TestFetcher_Fetch_Success(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
@@ -67,8 +68,8 @@ func TestFetcher_Fetch_404(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
 		w.Header().Set("Content-Type", "text/html")
-w.WriteHeader(http.StatusNotFound)
-w.Write([]byte("<html><body><h1>404 Not Found</h1></body></html>"))
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("<html><body><h1>404 Not Found</h1></body></html>"))
 	}))
 	defer server.Close()
 

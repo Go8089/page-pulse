@@ -2,10 +2,10 @@ package audit
 
 import (
 	"context"
-    "errors"
-	"testing"
+	"errors"
 	"github.com/Go8089/page-pulse/internal/fetcher"
 	"github.com/Go8089/page-pulse/internal/parser"
+	"testing"
 )
 
 type MockFetcher struct {
