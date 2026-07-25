@@ -51,7 +51,6 @@ export default function ScoreCard({
       ok: report.response_time_ms < 1000,
     },
   ];
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -88,10 +87,7 @@ export default function ScoreCard({
               className="text-5xl font-bold tracking-tight"
               style={{ color }}
             >
-              <CountUp
-                end={score}
-                duration={1.4}
-              />
+              {score}
             </span>
 
             <span className="mt-1 text-xs uppercase tracking-wider text-zinc-500">
