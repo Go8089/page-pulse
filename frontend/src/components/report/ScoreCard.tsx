@@ -1,7 +1,6 @@
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { motion } from "framer-motion";
-import CountUp from "react-countup";
 import type { AuditReport } from "../../types/audit";
 
 type Props = {
