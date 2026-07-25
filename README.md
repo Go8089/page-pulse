@@ -1,9 +1,7 @@
 # PagePulse
 
 PagePulse is a modern website auditing platform built with React, TypeScript, Tailwind CSS, Go, and Colly.
-
 It analyzes any website and generates an instant report including:
-
 - SEO
 - Metadata
 - Accessibility
@@ -12,77 +10,149 @@ It analyzes any website and generates an instant report including:
 - Response Time
 
 ---
+# Running with Docker
 
-## Tech Stack
+## Prerequisites
 
-### Frontend
+- Docker
+- Docker Compose
 
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
-- Framer Motion
-- Axios
-
-### Backend
-
-- Go
-- Gin
-- Colly
-
----
-
-## Features
-
-- Website SEO Audit
-- Metadata Analysis
-- Accessibility Checks
-- Performance Metrics
-- Modern Responsive UI
-- Animated Dashboard
-- Report Export
-- Copy Report
-- Recent Audit Ready
-
----
-
-## Local Setup
-
-### Backend
+Verify installation:
 
 ```bash
-cd backend
-go run cmd/server/main.go
+docker --version
+docker compose version
+```
+---
+## Clone the repository
+
+```bash
+git clone https://github.com/Go8089/page-pulse.git
+cd page-pulse
 ```
 
-Runs on
+---
+
+## Start the application
+
+```bash
+docker compose up --build
+```
+
+The first build may take a few minutes.
+
+---
+
+## Access the application
+
+Frontend
+
+```
+http://localhost:3000
+```
+
+Backend API
 
 ```
 http://localhost:8085
 ```
 
-### Frontend
+---
+
+## Verify Backend
 
 ```bash
-cd frontend
-npm install
-npm run dev
+curl -X POST http://localhost:8085/api/v1/audit \
+-H "Content-Type: application/json" \
+-d '{"url":"https://google.com"}'
 ```
 
-Runs on
+Expected response:
 
-```
-http://localhost:5173
+```json
+{
+  "http_status":200,
+  "response_time_ms":517,
+  "title":"Google",
+  "meta_description":"",
+  "h1_count":0,
+  "images_missing_alt":0,
+  "word_count":24
+}
 ```
 
 ---
 
-## Live Demo
+## Stop containers
 
-https://YOUR-VERCEL-URL.vercel.app
+```bash
+docker compose down
+```
 
 ---
 
-## Built for Digital Heroes Training Task
+## Rebuild after changes
 
-https://digitalheroesco.com
+```bash
+docker compose up --build
+```
+
+---
+
+## Docker Project Structure
+
+```
+page-pulse/
+│
+├── docker-compose.yml
+├── frontend/
+│   ├── Dockerfile
+│   └── .dockerignore
+│
+└── backend/
+    ├── Dockerfile
+    └── .dockerignore
+```
+
+---
+
+## Docker Services
+
+| Service | Port | Description |
+|---------|------|-------------|
+| Frontend | 3000 | React application served by Nginx |
+| Backend | 8085 | Go REST API |
+
+---
+
+## Troubleshooting
+
+View running containers
+
+```bash
+docker ps
+```
+
+View logs
+
+```bash
+docker compose logs
+```
+
+Backend logs
+
+```bash
+docker compose logs backend
+```
+
+Frontend logs
+
+```bash
+docker compose logs frontend
+```
+
+Restart containers
+
+```bash
+docker compose restart
+```
