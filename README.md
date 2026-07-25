@@ -39,7 +39,60 @@ Deployment
  Render
  Vercel
  Docker
- 
+
+# General Challenges
+
+These are common issues that other developers may encounter when working with or deploying the project.
+
+| Challenge | Recommendation |
+
+| CORS errors between frontend and backend. | Configure the backend CORS middleware to allow frontend requests. |
+| Environment variables differ between development and production. | Use `.env` locally and configure variables in Vercel and Render dashboards. |
+| Docker build takes several minutes initially. | This is expected because Docker downloads base images and installs dependencies on the first build. |
+| Backend deployment URL changes after redeployment. | Update `VITE_API_URL` to point to the current backend endpoint. |
+| Websites may block automated scraping. | Handle failures gracefully and display meaningful error messages to the user. |
+
+| Large project size because of `node_modules` and build artifacts. | Exclude generated files from submissions and regenerate them with `npm  
+  install`   or   `go mod tidy`. |
+| Local ports may already be in use. | Stop conflicting processes or change the exposed ports in `docker-compose.yml`. |
+| Production frontend cannot reach the backend. | Ensure the frontend is configured with the correct production API URL before building and deploying. |
+| Browser caching may serve outdated frontend assets after deployment. | Perform a hard refresh or clear the browser cache after new deployments. |
+| Dependency versions may become incompatible over time. | Lock dependency versions and test builds after upgrades. |
+
+# Project-Specific Challenges
+
+These are the challenges encountered during the development of PagePulse.
+
+# Frontend
+
+| Challenge | Solution |
+
+| Search bar occupied too much horizontal space on smaller screens. | Redesigned the layout, reduced padding, and improved responsiveness. |
+| Hero section remained visible after completing an audit. | Added a collapsible hero section with smooth transitions after analysis. |
+| Report cards looked static. | Implemented Framer Motion animations and staggered transitions. |
+| Overall score card lacked visual feedback. | Redesigned it with animated progress, health labels, and status indicators. |
+| React Error #130 occurred after receiving a successful API response. | Fixed an invalid component import/export and corrected the component hierarchy. |
+| Report failed to render even though the backend returned valid data. | Updated component props to match the `AuditReport` interface. |
+| Recent audits were not stored correctly. | Fixed Local Storage integration and audit history management. |
+| Error messages appeared at the bottom of the page after scrolling. | Moved error handling closer to the search interface for better visibility. |
+| Loading experience felt abrupt. | Added loading skeletons, transitions, and smoother UI feedback. |
+| README lacked proper setup instructions. | Documented local setup, Docker, deployment, API usage, and troubleshooting. |
+
+# Backend
+
+| Challenge | Solution |
+
+| Invalid URLs caused backend failures. | Added URL validation before starting the audit. |
+| Some websites returned unexpected scraping results. | Improved request handling and response validation. |
+| Response time was not tracked. | Added response time measurement for every audit request. |
+
+# Docker
+
+| Challenge | Solution |
+
+| Needed to verify frontend-backend communication inside Docker. | Tested API connectivity using Docker Compose and browser network tools. |
+| Docker documentation was missing. | Added Docker setup and usage instructions. |
+
 # Installation
 
 # Clone Repository
