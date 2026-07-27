@@ -16,6 +16,32 @@ export default function ReportHeader({ url, report }: Props) {
     toast.success("Report copied");
   }
 
+  function exportReport() {
+  const blob = new Blob(
+    [JSON.stringify(report, null, 2)],
+    {
+      type: "application/json",
+    }
+  );
+
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = `pagepulse-report-${Date.now()}.json`;
+
+  document.body.appendChild(link);
+
+  link.click();
+
+  link.remove();
+
+  URL.revokeObjectURL(url);
+
+  toast.success("Report exported");
+}
+
   return (
     <div className="mb-12 flex flex-col gap-6 border-b border-white/10 pb-8 md:flex-row md:items-center md:justify-between">
 
@@ -40,11 +66,12 @@ export default function ReportHeader({ url, report }: Props) {
         </button>
 
         <button
-          className="flex items-center gap-2 rounded-xl border border-white/10 px-4 py-3 text-sm transition hover:border-sky-500/30 hover:bg-zinc-900"
+         onClick={exportReport}
+         className="flex items-center gap-2 rounded-xl border border-white/10 px-4 py-3 text-sm transition hover:border-sky-500/30 hover:bg-zinc-900"
         >
-          <Download size={16} />
-          Export
-        </button>
+       <Download size={16} />
+       Export
+       </button>
 
       </div>
     </div>
