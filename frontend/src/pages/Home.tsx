@@ -3,32 +3,21 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
-
 import Hero from "../components/hero/Hero";
-import RecentAudits from "../components/hero/RecentAudits";
 import Report from "../components/report/Report";
 import LoadingOverlay from "../components/report/LoadingOverlay";
 import ReportSkeleton from "../components/report/ReportSkeleton";
 import { auditUrl } from "../api/audit";
 import type { AuditReport } from "../types/audit";
-
-import {
-  saveRecentAudit,
-  getRecentAudits,
-} from "../utils/recentAudits";
+import { saveRecentAudit } from "../lib/history";
 
 export default function Home() {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [report, setReport] = useState<AuditReport | null>(null);
   const [error, setError] = useState("");
-  const [recentAudits, setRecentAudits] = useState<string[]>([]);
-
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    setRecentAudits(getRecentAudits());
-  }, []);
 
   useEffect(() => {
     function handler(e: KeyboardEvent) {
@@ -66,8 +55,22 @@ export default function Home() {
 
       setReport(result);
 
-      saveRecentAudit(inputUrl);
-      setRecentAudits(getRecentAudits());
+      const score =
+  100 -
+  result.images_missing_alt * 5 -
+  (result.meta_description ? 0 : 10) -
+  (result.h1_count === 0 ? 10 : 0);
+
+const finalScore = Math.max(
+  0,
+  Math.min(100, score)
+);
+
+saveRecentAudit({
+  url: inputUrl.trim(),
+  score: finalScore,
+  report: result,
+});
     } catch {
       setError("Failed to audit the website.");
     } finally {
@@ -98,13 +101,7 @@ export default function Home() {
                   inputRef={inputRef} error={error}        />
       </motion.div>
 
-      <RecentAudits
-        audits={recentAudits}
-        onSelect={(selectedUrl) => {
-          setUrl(selectedUrl);
-          handleAudit(selectedUrl);
-        }}
-      />
+      
 
     {error && (
   <div className="mx-auto mt-8 max-w-3xl rounded-3xl border border-red-500/20 bg-red-500/5 p-6">
