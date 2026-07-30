@@ -29,6 +29,7 @@ export default function Report({
       <ReportHeader
   url={url}
   report={report}
+  score={score}
 />
 
       <div className="space-y-10">

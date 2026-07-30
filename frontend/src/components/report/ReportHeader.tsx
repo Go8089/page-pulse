@@ -1,13 +1,15 @@
 import type { AuditReport } from "../../types/audit";
 import { Copy, Download } from "lucide-react";
 import { toast } from "sonner";
+import DownloadMenu from "./DownloadMenu";
 
 type Props = {
   url: string;
   report: AuditReport;
+  score: number;
 };
 
-export default function ReportHeader({ url, report }: Props) {
+export default function ReportHeader({ url, report, score }: Props) {
   async function copyReport() {
     await navigator.clipboard.writeText(
       JSON.stringify(report, null, 2)
@@ -64,14 +66,11 @@ export default function ReportHeader({ url, report }: Props) {
           <Copy size={16} />
           Copy
         </button>
-
-        <button
-         onClick={exportReport}
-         className="flex items-center gap-2 rounded-xl border border-white/10 px-4 py-3 text-sm transition hover:border-sky-500/30 hover:bg-zinc-900"
-        >
-       <Download size={16} />
-       Export
-       </button>
+<DownloadMenu
+  url={url}
+  score={score}
+  report={report}
+/>
 
       </div>
     </div>

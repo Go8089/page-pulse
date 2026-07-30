@@ -10,6 +10,7 @@ import ReportSkeleton from "../components/report/ReportSkeleton";
 import { auditUrl } from "../api/audit";
 import type { AuditReport } from "../types/audit";
 import { saveRecentAudit } from "../lib/history";
+import { useLocation } from "react-router-dom";
 
 export default function Home() {
   const [url, setUrl] = useState("");
@@ -17,7 +18,7 @@ export default function Home() {
   const [report, setReport] = useState<AuditReport | null>(null);
   const [error, setError] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
-
+  const location = useLocation();
 
   useEffect(() => {
     function handler(e: KeyboardEvent) {
@@ -43,6 +44,20 @@ export default function Home() {
       window.removeEventListener("keydown", handler);
     };
   }, [url]);
+
+  useEffect(() => {
+  const state = location.state as {
+    rerunUrl?: string;
+  };
+
+  if (!state?.rerunUrl) return;
+
+  setUrl(state.rerunUrl);
+
+  handleAudit(state.rerunUrl);
+
+  window.history.replaceState({}, document.title);
+}, []);
 
   async function handleAudit(inputUrl: string) {
     if (!inputUrl.trim()) return;
