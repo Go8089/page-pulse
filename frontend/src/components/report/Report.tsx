@@ -1,108 +1,157 @@
 import type { AuditReport } from "../../types/audit";
-import InfoCard from "./InfoCard";
-import MetricsGrid from "./MetricsGrid";
+
 import ReportHeader from "./ReportHeader";
-import ReportSection from "./ReportSection";
+import ExecutiveSummary from "./ExecutiveSummary";
+import ScoreBreakdown from "./ScoreBreakdown";
 import ScoreCard from "./ScoreCard";
+import MetricsGrid from "./MetricsGrid";
+import Recommendations from "./Recommendations";
+import ReportSection from "./ReportSection";
+import InfoCard from "./InfoCard";
 
 type Props = {
   report: AuditReport;
   url: string;
-  onRunAgain?: () => void;
 };
 
 export default function Report({
   report,
   url,
 }: Props) {
+
   const score =
     100 -
     report.images_missing_alt * 5 -
     (report.meta_description ? 0 : 10) -
     (report.h1_count === 0 ? 10 : 0);
 
-  const finalScore = Math.max(0, Math.min(100, score));
+  const finalScore = Math.max(
+    0,
+    Math.min(100, score)
+  );
 
   return (
-    <section className="mx-auto mt-16 mb-24 max-w-7xl px-6 lg:px-10">
+    <section className="relative mx-auto mb-24 mt-16 max-w-6xl px-6">
 
-      <ReportHeader
-  url={url}
-  report={report}
-  score={score}
-/>
+      <div className="pointer-events-none absolute inset-0 -z-10">
+
+        <div className="absolute left-1/2 top-0 h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-sky-500/10 blur-[220px]" />
+
+      </div>
 
       <div className="space-y-10">
+       <ReportHeader
+  url={url}
+  report={report}
+  score={finalScore}
+/>
 
- <ScoreCard
+<ExecutiveSummary
   score={finalScore}
   report={report}
 />
 
-  <ReportSection title="Performance">
-    <MetricsGrid report={report} />
-  </ReportSection>
+<ScoreBreakdown
+  report={report}
+/>
 
-  <ReportSection title="Metadata">
-  <div className="grid gap-6 md:grid-cols-2">
+<ScoreCard
+  score={finalScore}
+  report={report}
+/>
 
-    <div className="rounded-2xl border border-white/10 bg-zinc-950/60 p-6">
-      <p className="text-xs uppercase tracking-wide text-zinc-500">
-        Page Title
-      </p>
+<ReportSection title="Performance">
 
-      <p className="mt-3 text-lg font-medium text-white">
-        {report.title || "Not Found"}
-      </p>
-    </div>
+  <MetricsGrid report={report} />
 
-    <div className="rounded-2xl border border-white/10 bg-zinc-950/60 p-6">
-      <p className="text-xs uppercase tracking-wide text-zinc-500">
-        Meta Description
-      </p>
-
-      <p className="mt-3 leading-7 text-zinc-300">
-        {report.meta_description || "No meta description found."}
-      </p>
-    </div>
-
-  </div>
 </ReportSection>
 
-  <ReportSection title="Technical Details">
+<ReportSection title="SEO Analysis">
 
-  <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+  <div className="overflow-hidden rounded-3xl border border-white/10 bg-zinc-950/60">
+
+    <table className="w-full">
+
+      <tbody>
+
+        <tr className="border-b border-white/10">
+          <td className="px-6 py-4 text-zinc-500">
+            Page Title
+          </td>
+
+          <td className="px-6 py-4 text-right font-medium">
+            {report.title || "Not Found"}
+          </td>
+        </tr>
+
+        <tr className="border-b border-white/10">
+          <td className="px-6 py-4 text-zinc-500">
+            Meta Description
+          </td>
+
+          <td className="px-6 py-4 text-right">
+            {report.meta_description || "Missing"}
+          </td>
+        </tr>
+
+        <tr className="border-b border-white/10">
+          <td className="px-6 py-4 text-zinc-500">
+            H1 Count
+          </td>
+
+          <td className="px-6 py-4 text-right">
+            {report.h1_count}
+          </td>
+        </tr>
+
+        <tr>
+          <td className="px-6 py-4 text-zinc-500">
+            Word Count
+          </td>
+
+          <td className="px-6 py-4 text-right">
+            {report.word_count}
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</ReportSection>
+
+<ReportSection title="Accessibility">
+
+  <div className="grid gap-5 md:grid-cols-2">
 
     <InfoCard
-      title="HTTP Status"
-      value={report.http_status}
-    />
-
-    <InfoCard
-      title="H1 Count"
-      value={report.h1_count}
-    />
-
-    <InfoCard
-      title="Missing ALT"
+      title="Images Missing ALT"
       value={report.images_missing_alt}
     />
 
     <InfoCard
-      title="Word Count"
-      value={report.word_count}
-    />
-
-    <InfoCard
-      title="Response Time"
-      value={`${report.response_time_ms} ms`}
+      title="Accessibility Status"
+      value={
+        report.images_missing_alt === 0
+          ? "Good"
+          : "Needs Improvement"
+      }
     />
 
   </div>
 
 </ReportSection>
 
-</div>
+<ReportSection title="Recommendations">
+
+  <Recommendations
+    report={report}
+  />
+
+</ReportSection> 
+      </div>
 
     </section>
   );
