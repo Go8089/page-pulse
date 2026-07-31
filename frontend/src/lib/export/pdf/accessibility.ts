@@ -16,7 +16,7 @@ export function addAccessibility(
   pdf.setFontSize(20);
   pdf.setTextColor(theme.black);
 
-  pdf.text("Accessibility Analysis", 20, 25);
+  pdf.text("Accessibility Analysis & Recommendations", 20, 25);
 
   const status =
     data.imagesMissingAlt === 0
@@ -24,7 +24,7 @@ export function addAccessibility(
       : "Needs Improvement";
 
   autoTable(pdf, {
-    startY: 35,
+    startY: (pdf as any).lastAutoTable.finalY + 12,
 
     head: [["Metric", "Result", "Status"]],
 

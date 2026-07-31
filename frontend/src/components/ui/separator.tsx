@@ -1,23 +1,25 @@
-import { Separator as SeparatorPrimitive } from "@base-ui/react/separator"
-
 import { cn } from "../../lib/utils";
 
+type SeparatorProps = {
+  orientation?: "horizontal" | "vertical";
+  className?: string;
+};
+
 function Separator({
-  className,
   orientation = "horizontal",
-  ...props
-}: SeparatorPrimitive.Props) {
+  className,
+}: SeparatorProps) {
   return (
-    <SeparatorPrimitive
+    <div
       data-slot="separator"
-      orientation={orientation}
       className={cn(
-        "shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch",
+        orientation === "horizontal"
+          ? "h-px w-full bg-white/10"
+          : "w-px self-stretch bg-white/10",
         className
       )}
-      {...props}
     />
-  )
+  );
 }
 
-export { Separator }
+export { Separator };

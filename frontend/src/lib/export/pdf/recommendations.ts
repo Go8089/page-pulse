@@ -6,13 +6,11 @@ export function addRecommendations(
   pdf: jsPDF,
   report: AuditReport
 ) {
-  pdf.addPage();
+  
 
   pdf.setFont("helvetica", "bold");
   pdf.setFontSize(20);
   pdf.setTextColor(theme.black);
-
-  pdf.text("Recommendations", 20, 25);
 
   const recommendations: string[] = [];
 
@@ -62,7 +60,9 @@ export function addRecommendations(
     );
   }
 
-  let y = 45;
+  let y =
+  (pdf as any).lastAutoTable.finalY + 12;
+ 
 
   pdf.setFont("helvetica", "normal");
   pdf.setFontSize(12);
@@ -72,6 +72,6 @@ export function addRecommendations(
       maxWidth: 160,
     });
 
-    y += 15;
+    y += 8;
   });
 }

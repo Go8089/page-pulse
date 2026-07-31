@@ -18,7 +18,7 @@ export function addSummary(
 ) 
 
 {
-  pdf.addPage();
+  
 
   pdf.setFont("helvetica", "bold");
   pdf.setFontSize(20);

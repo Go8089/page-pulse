@@ -15,7 +15,7 @@ export function addPerformance(
   pdf.setFont("helvetica", "bold");
   pdf.setFontSize(20);
 
-  pdf.text("Performance", 20, 25);
+  pdf.text("Performance & SEO Analysis", 20, 25);
 
   autoTable(pdf, {
     startY: 35,

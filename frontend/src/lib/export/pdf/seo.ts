@@ -2,6 +2,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { theme } from "./theme";
 
+
 type SeoData = {
   title: string;
   metaDescription: string;
@@ -13,16 +14,14 @@ export function addSeo(
   pdf: jsPDF,
   data: SeoData
 ) {
-  pdf.addPage();
 
   pdf.setFont("helvetica", "bold");
   pdf.setFontSize(20);
   pdf.setTextColor(theme.black);
 
-  pdf.text("SEO Analysis", 20, 25);
 
   autoTable(pdf, {
-    startY: 35,
+   startY: (pdf as any).lastAutoTable.finalY + 12,
 
     head: [["Metric", "Result"]],
 
