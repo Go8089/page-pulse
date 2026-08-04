@@ -184,9 +184,7 @@ View logs
 
 ```bash
 docker compose logs
-
 docker compose logs backend
-
 docker compose logs frontend
 ```
 
@@ -209,7 +207,7 @@ npm run build
 3. Set the environment variable:
 
 ```env
-VITE_API_URL=https://your-render-url.onrender.com
+VITE_API_URL=https://page-pulse.onrender.com
 ```
 
 4. Deploy.
@@ -239,24 +237,10 @@ go build -o server ./cmd/server
 PORT=8085
 ```
 
-After deployment your backend will be available at:
-
+After deployment backend will be available at:
 ```
-https://your-service-name.onrender.com
+https://page-pulse.onrender.com
 ```
-
-Your audit endpoint becomes:
-
+audit endpoint becomes:
 ```
-https://your-service-name.onrender.com/api/v1/audit
-```
-
----
-
-# Production Configuration
-
-Update the frontend environment variable before deploying to Vercel.
-
-```env
-VITE_API_URL=https://your-service-name.onrender.com
-```
+https://page-pulse.onrender.com/api/v1/audit
